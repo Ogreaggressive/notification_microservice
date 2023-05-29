@@ -61,7 +61,7 @@ class CodeHandler:
         body = f"We would like to inform you that a new bill has been generated."
         body += f"Concept: {concept}"
         body += f"Amount: {amount}"
-        body += f"Please review the bill details and make the payment by the due date."
+        body += f"Please review the bill details given"
         body += f"If you have any questions or concerns regarding the bill, please contact our support team."
         body += f"Bill generated at: {datetime.datetime.now()}"
 

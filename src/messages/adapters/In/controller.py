@@ -7,6 +7,7 @@ from aplication.core.code_handler import CodeHandler
 messageBP = Blueprint('user', __name__)
 code_handler = CodeHandler()
 
+#
 @messageBP.route('/send_mail/new_Login', methods=['POST'])
 def send_new_login_mail():
     data = request.get_json()
@@ -24,8 +25,8 @@ def send_new_login_mail():
     else:
         return jsonify({'message': 'couldnt send'}), 404
     
-
-@messageBP.route('/send_mail/Register', methods=['POST'])
+#
+@messageBP.route('/send_email/Register', methods=['POST'])
 def send_Register():
     data = request.get_json()
     receiver_id = data["id"]
@@ -42,6 +43,7 @@ def send_Register():
     else:
         return jsonify({'message': 'couldnt send'}), 404
 
+#
 @messageBP.route('/send_mail/password_change', methods=['PUT'])
 def send_password_change():
     data = request.get_json()
@@ -58,7 +60,8 @@ def send_password_change():
     else:
         return jsonify({'message': 'couldnt send'}), 404
 
-@messageBP.route('/send_mail/user_deleted', methods=['POST'])
+
+@messageBP.route('/send_email/user_deleted', methods=['DELETE'])
 def send_user_deleted():
     data = request.get_json()
     email = data["email"]
@@ -74,13 +77,15 @@ def send_user_deleted():
     else:
         return jsonify({'message': 'couldnt send'}), 404
 
-@messageBP.route('/send_mail/change_username', methods=['POST'])
-def send_change_username():
+#
+@messageBP.route('/send_email/change_username/<int:userID>', methods=['PUT'])
+def send_change_username(userID):
+    print(userID)
     data = request.get_json()
-    receiver_id = data["userID"] 
-    newUsername = data["newUsername"]
+    #receiver_id = data["userID"] 
+    newUsername = data["new_username"]
     subject,body = code_handler.handle_code(5,username=newUsername)
-    info = EmailMessage(receiverId=receiver_id, subject=subject, body=body)
+    info = EmailMessage(receiverId=userID, subject=subject, body=body)
     email_service = EmailService()
     email_sent = email_service.send_email(info)
     if email_sent == 1:
@@ -91,17 +96,17 @@ def send_change_username():
     else:
         return jsonify({'message': 'couldnt send'}), 404
 
+#
 @messageBP.route('/send_mail/new_bill_info', methods=['POST'])
 def send_billing_info():
     data = request.get_json()
-    email = data["userID"]
+    userID = data["userID"]
     bill = {
     "concept": data["concept"],
-    "amount": data["amount"],
-    "date": data["date"]
+    "amount": data["amount"]
     }
     subject, body = code_handler.handle_code(6, bill=bill)
-    info = EmailMessage(receiver=email, subject=subject, body=body)
+    info = EmailMessage(receiverId=userID, subject=subject, body=body)
     email_service = EmailService()
     email_sent = email_service.send_email(info)
     if email_sent == 1:
