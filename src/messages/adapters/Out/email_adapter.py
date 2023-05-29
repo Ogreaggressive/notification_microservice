@@ -17,6 +17,10 @@ class EmailAdapter:
 
         context = ssl.create_default_context()
 
-        with smtplib.SMTP_SSL(self.smtp_config.server, self.smtp_config.port, context=context) as smtp:
-            smtp.login(sender, password)
-            smtp.send_message(em)
+        try:
+            with smtplib.SMTP_SSL(self.smtp_config.server, self.smtp_config.port, context=context) as smtp:
+                smtp.login(sender, password)
+                smtp.send_message(em)
+            return 1
+        except Exception as em:
+            return 0

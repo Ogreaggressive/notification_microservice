@@ -3,7 +3,7 @@ from flask import jsonify
 
 class user_auth_adapter:
     def __init__(self):
-        self.baseUrl = "https://68ac-181-177-183-178.ngrok-free.app/"
+        self.baseUrl = "https://4197-181-177-147-247.ngrok-free.app/"
 
     def get_userID(self, endpoint):
         url = self.baseUrl + endpoint

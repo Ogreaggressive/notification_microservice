@@ -3,7 +3,7 @@ from flask import jsonify
 
 class user_admin_adapter:
     def __init__(self):
-        self.baseUrl = "https://68ac-181-177-183-178.ngrok-free.app/"
+        self.baseUrl = "https://65db-181-177-183-178.ngrok-free.app/"
 
     def get_email(self, userID):
         endpoint = '/users/'+str(userID)

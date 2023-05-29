@@ -23,9 +23,9 @@ class EmailService:
             return self.user_auth_adapter.get_id_logging_in()
 
     def send_email(self, email_message: EmailMessage):
-        if not email_message.receiverId:
+        if email_message.receiverId:
             email_message.receiver = self.retrieve_user_email(email_message.receiverId)   
-        self.email_adapter.send_email(
+        return self.email_adapter.send_email(
             sender=self.sender,
             password=self.password,
             receiver=email_message.receiver,
